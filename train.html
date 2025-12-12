@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>模型训练</title>
+
+<style>
+body {
+    font-family: "宋体";
+    margin: 0;
+    padding: 0;
+    background: url("./static/gene2.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* --- 主体统一尺寸：700 × 450 --- */
+.window {
+    width: 700px;
+    height: 450px;
+    margin: 60px auto;
+    background: url("./images/基因4.jpg") no-repeat center center fixed;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 5px 25px rgba(0,0,0,0.25);
+}
+
+/* 顶部栏（与你前面页面完全一样） */
+.title-bar {
+    height: 40px;
+    background: #6ea6d9;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 8px;
+}
+
+.title-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 4px;
+    background: #d8e6f7;
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 16px;
+}
+.title-btn:hover {
+    background: #c3daf5;
+}
+
+/* 标题 */
+.title {
+    background-color: #5993d2;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    font-size: 20px;
+}
+
+/* 主体布局缩小适配 */
+.main {
+    display: flex;
+    padding-top: 10px;
+}
+
+/* 左侧按钮栏 */
+.left-panel {
+   
+    width: 160px;
+    padding: 10px;
+    border-right: 1px solid #ddd;
+    margin-top: 70px;   /* 👈 向下平移 10px，可自行调大 */
+}
+
+
+
+.left-panel button {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 14px;
+    padding: 8px 5px;
+    border: 1px solid #7aa7d9;
+    background: #e8effa;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.left-panel button:hover {
+    background: #d7e6ff;
+}
+
+.right-panel {
+    flex: 1;
+    padding: 0; /* 移除 padding，改用标题和文本框内 padding */
+}
+
+.process-title {
+    background-color: rgb(224,231,241);
+    text-align: center;
+    line-height: 32px;
+    font-size: 15px;
+    border-radius: 6px 6px 0 0;
+    width: 100%;       /* 占满父容器 */
+    box-sizing: border-box;  /* 包含内边距 */
+    padding: 8px 10px; /* 左右内边距 */
+}
+
+textarea {
+    width: 100%;
+    height: 220px;
+    resize: none;
+    font-size: 13px;
+    padding: 8px 10px;
+    background: #fafcff;
+    border: 1px solid #7aa7d9;
+    border-radius: 0 0 6px 6px;
+    box-sizing: border-box;
+}
+
+
+#stop-msg {
+    color:red;
+    margin-top:8px;
+    display:none;
+    font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="window">
+
+    <!-- 顶部栏：与数据展示页面完全一致 -->
+    <div class="title-bar">
+        <button class="title-btn">—</button>
+        <button class="title-btn">X</button>
+    </div>
+
+    <div class="title">
+        癌症基因表达预测系统——模型训练
+    </div>
+
+    <div class="main">
+
+        <!-- 左侧按钮栏 -->
+        <div class="left-panel">
+            <button onclick="startTrain()">开始训练</button>
+            <button onclick="stopTrain()">终止训练</button>
+            <button onclick="window.location.href='select.html'">返回</button>
+        </div>
+
+        <!-- 右侧日志显示 -->
+        <div class="right-panel">
+            <div class="process-title">训练过程</div>
+            <textarea id="log" readonly></textarea>
+            <div id="stop-msg">正在停止当前训练，请稍候…</div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+let logBox = document.getElementById("log");
+let trainingTimer = null;
+
+function startTrain() {
+    logBox.value =
+        "开始训练：\n" +
+        "数据加载需要时间，请耐心等待！\n" +
+        "数据加载成功！\n" +
+        "重复训练次数：15次    迭代次数：100次\n\n";
+
+    document.getElementById("stop-msg").style.display = "none";
+
+    let epoch = 1;
+    trainingTimer = setInterval(() => {
+        logBox.value += `Epoch ${epoch}：训练中... AUC 正在计算...\n`;
+        logBox.scrollTop = logBox.scrollHeight;
+        epoch++;
+    }, 1000);
+}
+
+function stopTrain() {
+    if (trainingTimer) {
+        clearInterval(trainingTimer);
+        trainingTimer = null;
+    }
+
+    document.getElementById("stop-msg").style.display = "block";
+
+    logBox.value += "\n⚠ 已发送终止训练信号，训练已停止。\n";
+    logBox.scrollTop = logBox.scrollHeight;
+}
+</script>
+
+</body>
+</html>
+

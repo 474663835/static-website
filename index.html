@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>癌症基因表达预测系统</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+    background-size: cover;
+    font-family: "宋体";
+}
+
+/* --- 主体窗口 700 × 450 --- */
+.window {
+    width: 700px;
+    height: 450px;
+    margin: 60px auto;
+    background: url("/images/基因.jpg") no-repeat center center fixed;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* 顶部栏（与 data/train/result 风格一致） */
+.title-bar {
+    height: 40px;
+    background: #5993d2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 8px;
+}
+
+/* 顶部按钮（装饰用） */
+.title-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 4px;
+    background: #d8e6f7;
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 16px;
+}
+.title-btn:hover {
+    background: #c3daf5;
+}
+
+/* 标题栏（与其他页面一致） */
+.title {
+    background-color: #5993d2;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* 中间内容区域 */
+.main-content {
+    height: 340px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 进入按钮 */
+.enter-btn {
+    font-size: 20px;
+    padding: 12px 60px;
+    background-color: #5993d2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.enter-btn:hover {
+    background-color: #417ec2;
+}
+</style>
+</head>
+
+<body>
+
+<div class="window">
+
+    <div class="title-bar">
+        <button class="title-btn">—</button>
+        <button class="title-btn">X</button>
+    </div>
+
+    <div class="title">癌症基因表达预测系统</div>
+
+    <div class="main-content">
+        <a href="select.html" class="enter-btn">进入系统</a>
+    </div>
+
+</div>
+
+</body>
+</html>

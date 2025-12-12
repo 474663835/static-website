@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>结果展示</title>
+
+<style>
+body {
+    font-family: "宋体";
+    background-color: #f2f2f2;
+    margin: 0;
+}
+
+/* ================= 主体容器：700 × 450 ================= */
+.container {
+    width: 700px;
+    height: 450px;
+    margin: 20px auto;
+     background: url("./images/基因4.jpg") no-repeat center center fixed;
+    border: 1px solid #ccc;
+    position: relative;
+}
+
+/* 顶部蓝条（高度与之前一致） */
+.top-bar {
+    width: 100%;
+    height: 40px;
+    background-color: rgb(89,147,210);
+}
+
+/* 标题栏（高度保持一致） */
+.title {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    color: rgb(89,147,210);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 按钮区（与训练页一致） */
+.button-bar {
+    width: 620px;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-bar button {
+    width: 140px;
+    height: 40px;
+    font-family: "黑体";
+    font-size: 14px;
+    border: none;
+    background-color: rgb(224,231,241);
+    cursor: pointer;
+}
+
+/* ================= 内容区（左右） ================= */
+.content {
+    width: 620px;
+    height: 260px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 图片框 */
+.image-box {
+    width: 260px;
+    height: 220px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+
+.image-box img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 指标框 */
+.metrics-box {
+    width: 330px;
+    height: 220px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    font-size: 12pt;
+    background: #fff;
+}
+
+.metrics-box table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.metrics-box th, .metrics-box td {
+    padding: 3px 5px;
+    text-align: left;
+}
+
+.metrics-box th {
+    width: 45%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top-bar"></div>
+
+    <div class="title">癌症基因表达预测系统——结果展示</div>
+
+    <div class="button-bar">
+        <button onclick="loadResult('attentive')">AttentiveChrome</button>
+        <button onclick="loadResult('deep')">DeepChrome</button>
+        <button onclick="loadResult('ours')">本文模型</button>
+        <a href="select.html"><button>返回</button></a>
+    </div>
+
+    <div class="content">
+        <div class="image-box">
+            <img id="resultImage" src="" alt="训练曲线图">
+        </div>
+
+        <div class="metrics-box">
+            <table id="metricsTable">
+                <tbody>
+                    <tr><th>指标</th><th>数值</th></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function loadResult(model) {
+
+    const img = document.getElementById("resultImage");
+    const table = document.getElementById("metricsTable");
+
+    let imgPath = "";
+    if (model === "attentive") imgPath = "images/attentive_auc.svg";
+    if (model === "deep")      imgPath = "images/deepchrome_auc.svg";
+    if (model === "ours")      imgPath = "images/covatten_auc.svg";
+
+    img.src = imgPath;
+
+    // 指标
+    const metrics = {
+        attentive: {
+            "AUC": "0.9290716588294443",
+            "Accuracy": "0.8673486786018755",
+            "F1_score": "0.8814228661681539",
+            "Precision": "0.9073818110372346",
+            "Sensitivity": "0.8586755456899742",
+            "Specificity": "0.8791352438411264"
+        },
+        deep: {
+            "AUC": "0.9258880557829438",
+            "Accuracy": "0.8613384484228473",
+            "F1_score": "0.8783668534488599",
+            "Precision": "0.8878958204491886",
+            "Sensitivity": "0.8691083980762114",
+            "Specificity": "0.8507792860734039"
+        },
+        ours: {
+            "AUC": "0.954933265033154",
+            "Accuracy": "0.8738277919863597",
+            "F1_score": "0.8861698835219602",
+            "Precision": "0.9210370715789776",
+            "Sensitivity": "0.8550499445061044",
+            "Specificity": "0.8993464052287584"
+        }
+    };
+
+    table.innerHTML = '<tbody><tr><th>指标</th><th>数值</th></tr></tbody>';
+
+    const data = metrics[model];
+    for (const k in data) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<th>${k}</th><td>${data[k]}</td>`;
+        table.querySelector("tbody").appendChild(tr);
+    }
+}
+
+window.onload = () => loadResult("ours");
+</script>
+
+</body>
+</html>
